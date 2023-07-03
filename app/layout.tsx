@@ -3,6 +3,8 @@ import "./globals.css";
 import { Figtree } from "next/font/google";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import UserProvider from "@/providers/UserProvider";
+import ModalProvider from "@/providers/ModelProvider";
+import ToasterProvider from "@/providers/ToasterProvider";
 
 const figTree = Figtree({ subsets: ["latin"] });
 
@@ -19,11 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={figTree.className}>
-       <UserProvider>
-       <SupabaseProvider>
-          <Sidebar>{children}</Sidebar>
-        </SupabaseProvider>
-       </UserProvider>
+        <ToasterProvider/>
+          <SupabaseProvider>
+            <UserProvider>
+              <ModalProvider />
+              <Sidebar>{children}</Sidebar>
+            </UserProvider>
+          </SupabaseProvider>
+  
       </body>
     </html>
   );
