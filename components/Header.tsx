@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
       toast.success("Logged out")
     }
   };
-  console.log(user)
+
   return (
     <div
       className={twMerge(
