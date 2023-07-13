@@ -10,7 +10,7 @@ import Button from "./Button";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useUser } from "@/hooks/useUser";
-import { toast} from "react-hot-toast"
+import { toast } from "react-hot-toast";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -22,18 +22,18 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const authModal = useAuthModal();
 
   const supabaseClient = useSupabaseClient();
-  const {user} = useUser();
+  const { user } = useUser();
 
   const handleLogOut = async () => {
     const { error } = await supabaseClient.auth.signOut();
-    supabaseClient.auth.signOut()
+    supabaseClient.auth.signOut();
     //TODO: reset playing song
     router.refresh();
 
     if (error) {
-      toast.error(error.message)
-    }else {
-      toast.success("Logged out")
+      toast.error(error.message);
+    } else {
+      toast.success("Logged out");
     }
   };
 
@@ -70,10 +70,15 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           </button>
         </div>
         <div className="flex justify-between items-center gap-x-4">
-        {user ? <>
-          <Button onClick={handleLogOut}>Logout</Button>
-          <Button onClick={() => router.push('/account')} ><FaUserAlt/></Button>
-        </> : <>
+          {user ? (
+            <>
+              <Button onClick={handleLogOut}>Logout</Button>
+              <Button onClick={() => router.push("/account")}>
+                <FaUserAlt />
+              </Button>
+            </>
+          ) : (
+            <>
               <Button
                 onClick={authModal.onOpen}
                 className="bg-transparent text-neutral-300 font-medium"
@@ -83,7 +88,8 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
               <Button onClick={authModal.onClose} className="  font-medium">
                 Register
               </Button>
-            </>}
+            </>
+          )}
         </div>
       </div>
       {children}

@@ -7,8 +7,14 @@ import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import useUploadModal from "@/hooks/useUploadModal";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { Song } from "@/types";
+import MediaItem from "./MediaItem";
 
-const Library = () => {
+interface LibraryProp {
+  songs: Song[];
+}
+
+const Library: React.FC<LibraryProp> = ({ songs }) => {
   const authModal = useAuthModal();
   const uploadModal = useUploadModal();
   const { user } = useUser();
@@ -31,6 +37,7 @@ const Library = () => {
     getSongs();
   }, []);
 
+
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between px-5 pt-4">
@@ -44,7 +51,9 @@ const Library = () => {
         />
       </div>
       <div className="flex flex-col gap-y-2 mt-4 px-3">
-      
+         {songs?.map((song) => (
+          <MediaItem onClick={()=>{}} key={song.id} song={song}/>
+        ))} 
       </div>
     </div>
   );
