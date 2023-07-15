@@ -6,7 +6,10 @@ interface PageContentProps {
 
 import React from "react";
 import SongItem from "./SongItem";
+import useOnPlay from "@/hooks/useOnPlay";
 const PageContent: React.FC<PageContentProps> = ({ songs }) => {
+  const onPlay = useOnPlay(songs);
+
   if (songs.length > 0) {
     return (
       <div
@@ -23,7 +26,13 @@ const PageContent: React.FC<PageContentProps> = ({ songs }) => {
       "
       >
         {songs.map((song) => (
-          <SongItem song={song} onClick={() => {}} key={song.id} />
+          <SongItem
+            song={song}
+            onClick={(id: string) => {
+              onPlay(id);
+            }}
+            key={song.id}
+          />
         ))}
       </div>
     );

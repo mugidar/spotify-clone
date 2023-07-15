@@ -9,6 +9,7 @@ import useUploadModal from "@/hooks/useUploadModal";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Song } from "@/types";
 import MediaItem from "./MediaItem";
+import useOnPlay from "@/hooks/useOnPlay";
 
 interface LibraryProp {
   songs: Song[];
@@ -29,16 +30,18 @@ const Library: React.FC<LibraryProp> = ({ songs }) => {
 
   const [mySongs, setMySongs] = useState();
 
+  const onPlay = useOnPlay(songs)
+
   useEffect(() => {
     const getSongs = async () => {
       let { data: songs, error } = await supabase.from("songs").select("*");
-      setMySongs(songs);
+      setMySongs(songs );
     };
     getSongs();
   }, []);
 
 
-  return (
+  return ( 
     <div className="flex flex-col">
       <div className="flex items-center justify-between px-5 pt-4">
         <div className="inline-flex items-center gap-x-2">
@@ -52,7 +55,7 @@ const Library: React.FC<LibraryProp> = ({ songs }) => {
       </div>
       <div className="flex flex-col gap-y-2 mt-4 px-3">
          {songs?.map((song) => (
-          <MediaItem onClick={()=>{}} key={song.id} song={song}/>
+          <MediaItem onClick={(id:string)=>{onPlay(id)}} key={song.id} song={song}/>
         ))} 
       </div>
     </div>
